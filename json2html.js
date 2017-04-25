@@ -28,13 +28,16 @@ var sessions;
   function makeForm(session){
     var innerForm = document.getElementById('innerForm');
     session.fields.forEach(function(item){
-      var divComponentLayout = setAndGetLabelLayout(item.label);
+      var divComponentLayout = setAndGetFormElement(item.label,item.name);
       switch (item.type) {
         case 'text':
-          divComponentLayout.appendChild(addTextField(item));
+          divComponentLayout.appendChild(createDOMTextField(item));
           break;
         case 'radio' :
-          divComponentLayout.appendChild(addRadioGroup(item));
+          divComponentLayout.appendChild(createDOMRadioGroup(item));
+          break;
+        case 'list' :
+          divComponentLayout.appendChild(createDOMSelect(item));
           break;
         default:
 
@@ -42,17 +45,54 @@ var sessions;
 
     });
   }
-  function setAndGetLabelLayout(labelString){
+
+
+  function createDOMSelect(item){
+    var selectDOM = document.createElement("SELECT");
+
+    item.values.forEach(function(itemValue){
+      var dependencyID = itemValue.dependency.split('\.')[0];
+      if(dependencyID){
+
+        var itemDOM = document.getElementById(dependencyID);
+        var context = this;
+        itemDOM.onchange = (function (context){
+
+          selectDOM.innerHTML = '';
+
+          var filter = context.target.value;
+
+          var filtredList = item.values.filter(function (listItem) {
+            if(listItem.dependency.includes(filter))
+              return listItem;
+          });
+
+
+          filtredList.forEach(function (item) {
+            selectDOM.options.add(new Option(item.name));
+          });
+          console.log(selectDOM);
+
+        });
+      }
+    });
+
+    return selectDOM;
+  }
+
+  function setAndGetFormElement(labelString,nameID){
     var innerForm = document.getElementById('innerForm');
     var innerFormDiv = document.createElement('div');
     innerFormDiv.classList.add('form-group');
     var label = document.createElement('label');
     label.innerHTML = labelString;
     innerFormDiv.appendChild(label);
+    innerFormDiv.id = nameID;
     innerForm.appendChild(innerFormDiv);
+
     return innerFormDiv;
   }
-  function addRadioGroup(item){
+  function createDOMRadioGroup(item){
     var container = document.createElement('div');
 
     item.values.forEach(function(itemRadio){
@@ -64,17 +104,18 @@ var sessions;
       var inputRadio = document.createElement('input');
       inputRadio.type = 'radio';
       inputRadio.name = 'optradio';
+      inputRadio.value = itemRadio.name;
       radioLabel.appendChild(inputRadio);
 
       var textCon = document.createTextNode(itemRadio.name);
       radioLabel.appendChild(textCon);
 
-      console.log(radioLabel.childNodes);
 
     });
+
     return container;
   }
-  function addTextField(item){
+  function createDOMTextField(item){
     var textInput = document.createElement('input');
     textInput.classList.add('form-control');
     return textInput;
@@ -104,7 +145,6 @@ var sessions;
   }
   function onContinue(){
     index += 1;
-    console.log(index);
     var itemChild = document.getElementById("session_ul").childNodes;
     itemChild[index].classList.add('active');
     var myNode = document.getElementById("innerForm");
