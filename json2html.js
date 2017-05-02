@@ -39,11 +39,17 @@ var sessions;
         case 'list' :
           divComponentLayout.appendChild(createDOMSelect(item));
           break;
+        case 'checkbox':
+          divComponentLayout.appendChild(createDOMCheckBox(item));
         default:
 
       }
 
     });
+  }
+
+  function createDOMCheckBox(item){
+    return createDOMRadioOrCheckbox(item);
   }
 
 
@@ -93,6 +99,10 @@ var sessions;
     return innerFormDiv;
   }
   function createDOMRadioGroup(item){
+    return createDOMRadioOrCheckbox(item,true);
+  }
+
+  function createDOMRadioOrCheckbox(item,radio){
     var container = document.createElement('div');
 
     item.values.forEach(function(itemRadio){
@@ -102,7 +112,11 @@ var sessions;
       container.appendChild(radioLabel);
 
       var inputRadio = document.createElement('input');
-      inputRadio.type = 'radio';
+      if(radio){
+          inputRadio.type = 'radio';
+      }else{
+        inputRadio.type = 'checkbox';
+      }
       inputRadio.name = 'optradio';
       inputRadio.value = itemRadio.name;
       radioLabel.appendChild(inputRadio);
@@ -114,7 +128,11 @@ var sessions;
     });
 
     return container;
+
+
+
   }
+
   function createDOMTextField(item){
     var textInput = document.createElement('input');
     textInput.classList.add('form-control');
