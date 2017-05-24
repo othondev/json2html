@@ -47,7 +47,7 @@
 						"name": "degree",
             "label" : "What type of degree are you looking for: ",
 						"required": true,
-						"type": "checkbox",
+						"type": "radio",
 						"values": [{
 							"name": "Undergraduate"
 						}, {
@@ -83,7 +83,41 @@
 								"dependency": "degree.Undergraduate"
 							}
 						]
-					}
+					},
+          {
+            "id": "categorysports",
+            "name": "categorysports",
+            "label" : "What category sports you prefer?",
+            "required": true,
+            "type": "checkbox",
+            "values": [{
+              "name": "Water"
+            }, {
+              "name": "Earth"
+            }]
+          },
+          {
+            "label": "What is sport you like as?",
+            "name": "sportname",
+            "type": "list",
+            "values": [{
+                "name": "Swimming",
+                "dependency": "categorysports.Water"
+              },
+              {
+                  "name": "synchronized swimming",
+                  "dependency": "categorysports.Water"
+                },
+                {
+                  "name": "Soccer",
+                  "dependency": "categorysports.Earth"
+                },
+                {
+                  "name": "Running",
+                  "dependency": "categorysports.Earth"
+                }
+            ]
+          }
 				],
 				"name": "Your Education"
 			},

@@ -66,18 +66,21 @@ var sessions;
 
           selectDOM.innerHTML = '';
 
-          var filter = context.target.value;
+          var filter =[];
 
-          var filtredList = item.values.filter(function (listItem) {
-            if(listItem.dependency.includes(filter))
-              return listItem;
+          itemDOM.querySelectorAll('[type="checkbox"]:checked, [type="radio"]:checked').forEach(function(item){
+            filter.push(item.defaultValue);
           });
 
+          var filtredList = item.values.filter(function (listItem) {
+            var dependencyName = listItem.dependency.split('\.')[1];
+            if(filter.includes(dependencyName))
+              return listItem;
+          });
 
           filtredList.forEach(function (item) {
             selectDOM.options.add(new Option(item.name));
           });
-          console.log(selectDOM);
 
         });
       }
@@ -115,7 +118,7 @@ var sessions;
       if(radio){
           inputRadio.type = 'radio';
       }else{
-        inputRadio.type = 'checkbox';
+          inputRadio.type = 'checkbox';
       }
       inputRadio.name = 'optradio';
       inputRadio.value = itemRadio.name;
