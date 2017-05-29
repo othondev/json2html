@@ -29,6 +29,19 @@ var sessions;
     var innerForm = document.getElementById('innerForm');
     session.fields.forEach(function(item){
       var divComponentLayout = setAndGetFormElement(item.label,item.name);
+
+      if(item.validation)
+        divComponentLayout.addEventListener("keyup",function(layout){
+          if(validate(item.validation, layout.target.value)){
+            console.log(layout.target.value);
+            divComponentLayout.classList.remove("has-error");
+          }
+          else{
+            console.log(layout.target.value);
+            divComponentLayout.classList.add("has-error");
+          }
+
+        });
       switch (item.type) {
         case 'text':
           divComponentLayout.appendChild(createDOMTextField(item));

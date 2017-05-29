@@ -1,3 +1,18 @@
+function validate(field,text){
+  switch (field) {
+    case "Email":
+      return Email(text);
+      break;
+    case "CPF":
+        return CPF(text);
+        break;
+    case "Number":
+        return isNumber(text);
+        break;
+    default:
+
+  }
+}
 function Email(email) {
   var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return re.test(email);
@@ -22,6 +37,6 @@ function CPF(strCPF) {
   if (Resto != parseInt(strCPF.substring(10, 11) ) ) return false;
   return true;
 }
-function number(num){
+function isNumber(num){
   return !isNaN(num);
 }
