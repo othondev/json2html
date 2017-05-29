@@ -25,23 +25,43 @@ var sessions;
     });
 
   }
+  function setAndGetElementWithValidation(item,divComponentLayout){
+
+    if(item.required && item.type === "text" )
+      divComponentLayout.classList.add("has-error");
+
+
+    divComponentLayout.addEventListener("keyup",function(layout){
+      if(item.required){
+        if(layout.target.value === ""){
+          divComponentLayout.classList.add("has-error");
+        }else{
+            if(validate(item.validation, layout.target.value))
+              divComponentLayout.classList.remove("has-error");
+            else
+              divComponentLayout.classList.add("has-error");
+        }
+      }else{
+        if(layout.target.value !== ""){
+          if(validate(item.validation, layout.target.value))
+            divComponentLayout.classList.remove("has-error");
+          else {
+            divComponentLayout.classList.add("has-error");
+          }
+        }else{
+          divComponentLayout.classList.remove("has-error");
+        }
+      }
+    });
+    return divComponentLayout;
+  }
   function makeForm(session){
     var innerForm = document.getElementById('innerForm');
     session.fields.forEach(function(item){
-      var divComponentLayout = setAndGetFormElement(item.label,item.name);
+      var divComponentLayout = setAndGetFormElement(item.label,item.name,item.required);
 
-      if(item.validation)
-        divComponentLayout.addEventListener("keyup",function(layout){
-          if(validate(item.validation, layout.target.value)){
-            console.log(layout.target.value);
-            divComponentLayout.classList.remove("has-error");
-          }
-          else{
-            console.log(layout.target.value);
-            divComponentLayout.classList.add("has-error");
-          }
+      divComponentLayout = setAndGetElementWithValidation(item,divComponentLayout);
 
-        });
       switch (item.type) {
         case 'text':
           divComponentLayout.appendChild(createDOMTextField(item));
@@ -60,7 +80,6 @@ var sessions;
 
     });
   }
-
   function createDOMCheckBox(item){
     return createDOMRadioOrCheckbox(item);
   }
@@ -102,7 +121,7 @@ var sessions;
     return selectDOM;
   }
 
-  function setAndGetFormElement(labelString,nameID){
+  function setAndGetFormElement(labelString,nameID,required){
     var innerForm = document.getElementById('innerForm');
     var innerFormDiv = document.createElement('div');
     innerFormDiv.classList.add('form-group');

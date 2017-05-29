@@ -10,7 +10,7 @@ function validate(field,text){
         return isNumber(text);
         break;
     default:
-
+      return true;
   }
 }
 function Email(email) {
