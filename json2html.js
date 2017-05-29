@@ -62,7 +62,7 @@ var sessions;
 
         var itemDOM = document.getElementById(dependencyID);
         var context = this;
-        itemDOM.onchange = (function (context){
+        itemDOM.addEventListener("change",function (context){
 
           selectDOM.innerHTML = '';
 
