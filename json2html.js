@@ -174,6 +174,7 @@ var sessions;
     return textInput;
   }
   function setHeaderAndMainDivAndForm(json){
+    var containerForm = document.getElementById('containerForm');
     var head  = document.getElementsByTagName('head')[0];
     var link  = document.createElement('link');
     link.id   = 'cssId';
@@ -189,11 +190,11 @@ var sessions;
     var innerLayout = document.createElement('div');
     innerLayout.id = 'main';
     innerLayout.classList.add('auto_layout');
-    document.body.appendChild(innerLayout);
+    containerForm.appendChild(innerLayout);
 
     var innerForm = document.createElement('form');
     innerForm.id='innerForm';
-    document.body.appendChild(innerForm);
+    containerForm.appendChild(innerForm);
 
   }
   function onContinue(){
