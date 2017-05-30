@@ -23,28 +23,33 @@ var sessions;
       li_TAG.appendChild(a_TAG);
       session_ul.appendChild(li_TAG);
     });
-
   }
+
+
   function setAndGetElementWithValidation(item,divComponentLayout){
 
-    if(item.required && item.type === "text" )
+    if(item.required && item.type === "text" ){
       divComponentLayout.classList.add("has-error");
-
+    }
 
     divComponentLayout.addEventListener("keyup",function(layout){
       if(item.required){
         if(layout.target.value === ""){
           divComponentLayout.classList.add("has-error");
         }else{
-            if(validate(item.validation, layout.target.value))
+            if(validate(item.validation, layout.target.value)){
               divComponentLayout.classList.remove("has-error");
-            else
+            }
+            else{
               divComponentLayout.classList.add("has-error");
+            }
+
         }
       }else{
         if(layout.target.value !== ""){
-          if(validate(item.validation, layout.target.value))
+          if(validate(item.validation, layout.target.value)){
             divComponentLayout.classList.remove("has-error");
+          }
           else {
             divComponentLayout.classList.add("has-error");
           }
@@ -126,7 +131,7 @@ var sessions;
     var innerFormDiv = document.createElement('div');
     innerFormDiv.classList.add('form-group');
     var label = document.createElement('label');
-    label.innerHTML = labelString;
+    required ? label.innerHTML = '*'+labelString : label.innerHTML = labelString;
     innerFormDiv.appendChild(label);
     innerFormDiv.id = nameID;
     innerForm.appendChild(innerFormDiv);
@@ -161,11 +166,7 @@ var sessions;
 
 
     });
-
     return container;
-
-
-
   }
 
   function createDOMTextField(item){
