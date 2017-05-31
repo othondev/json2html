@@ -5,7 +5,7 @@ var sessions;
       sessions = json.sessions;
       setHeaderAndMainDivAndForm(json);
       makePagination(json.sessions);
-      onContinue(index);
+      nextSession(index);
     }
 
   function makePagination (jsonPagination) {
@@ -198,14 +198,18 @@ var sessions;
     containerForm.appendChild(innerForm);
 
   }
-  function onContinue(){
-    index += 1;
+  function nextSession(){
+    if(index < sessions.length -1) index += 1;
+    goToSession(index);
+  }
+  function previousSession(){
+    if(index > 0) index -= 1;
+    goToSession(index);
+  }
+  function goToSession(index){
     var itemChild = document.getElementById("session_ul").childNodes;
     itemChild[index].classList.add('active');
     var myNode = document.getElementById("innerForm");
     myNode.innerHTML = '';
     makeForm(sessions[index]);
-  }
-  function onFinishLater(){
-    alert ('Previous');
   }
