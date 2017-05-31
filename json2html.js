@@ -197,6 +197,10 @@ var sessions;
     innerForm.id='innerForm';
     containerForm.appendChild(innerForm);
 
+    var validateScript = document.createElement('script');
+    validateScript.src = json.validateJS;
+    document.getElementsByTagName('head')[0].appendChild(validateScript);
+
   }
   function nextSession(){
     if(index < sessions.length -1) index += 1;
@@ -212,4 +216,14 @@ var sessions;
     var myNode = document.getElementById("innerForm");
     myNode.innerHTML = '';
     makeForm(sessions[index]);
+  }
+  function validate(nameMethod,text){
+    try{
+      if(nameMethod)
+        return window[nameMethod](text);
+      else
+        return true;
+    }catch(err){
+      console.error('The ' + nameMethod + ' method not found in validation file');
+    }
   }

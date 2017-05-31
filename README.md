@@ -23,11 +23,39 @@ Create Html Form with Json file.
 
 #### Validation
 
-- "Email"
+The validation needs "validateJS" key's json set on with above. The "validation-BR.js" needs have validation method corresponding to the key "validation" that is inside the key "fields"
+
+```sh
+{
+  "validateJS" : "validation-BR.js"
+  "csspath":"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css",
+  "charset": "utf-8",
+	"layout": {
+		"sessions": [{
+			"fields": [{
+				"name": "phone",
+				"label": "Phone: ",
+				"type": "text",
+				"required": true,
+				"validation": "isNumber"
+			}]
+		}]
+	}
+}
+```
+
+The file validation-BR.js should to have name method equal value validation key.
+```sh
+//file validation-BR.js
+...
+function isNumber(num){
+  return !isNaN(num);
+}
+```
 
 #### Dependencies
 
-It's possible create combolist that
+??????????????????
 
 #### Event Function
 - nextSession() - call this method to go next session.
