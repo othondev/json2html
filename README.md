@@ -14,8 +14,24 @@ Create Html Form with Json file.
       - "required" determines if component is required.
       - "validation" determines how to data will be test.
 
+#### Type component
+
+- "text"
+- "radio"
+- "list"
+- "checkbox"
+
+#### Validation
+
+- "Email"
+
+#### Dependencies
+
+It's possible create combolist that
 
 #### Event Function
+- nextSession() - call this method to go next session.
+- previousSession() - call this method to go older session.
 
 
 #### Examples
@@ -62,3 +78,15 @@ This is valid example json to specification creating text component.
 </body>
 ...
 ```
+
+### Fast Test
+
+You can test json2Html using node to up service and access on: http://localhost:3000/
+
+```sh
+git clone https://github.com/othondev/json2html.git
+cd json2html
+node server.js
+```
+### License
+MIT
