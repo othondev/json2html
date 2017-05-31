@@ -53,9 +53,34 @@ function isNumber(num){
 }
 ```
 
-#### Dependencies
+#### Values Dependencies
 
-??????????????????
+It's possible create dependency relationship between values using "dependency" key. This feature is only enable to "list" type. In example above, the select "sportname" only show the values: "Swimming" and "synchronized swimming" whether "categorysports" componet have value: "Water".
+```sh
+{
+  "label": "What is sport you like as?",
+  "name": "sportname",
+  "type": "list",
+  "values": [{
+      "name": "Swimming",
+      "dependency": "categorysports.Water"
+    },
+    {
+        "name": "synchronized swimming",
+        "dependency": "categorysports.Water"
+      },
+      {
+        "name": "Soccer",
+        "dependency": "categorysports.Earth"
+      },
+      {
+        "name": "Running",
+        "dependency": "categorysports.Earth"
+      }
+  ]
+}
+```
+
 
 #### Event Function
 - nextSession() - call this method to go next session.
