@@ -85,6 +85,15 @@ It's possible create dependency relationship between values using "dependency" k
 #### Event Function
 - nextSession() - call this method to go next session.
 - previousSession() - call this method to go older session.
+- getResult() - call this method to reciever current values of form.
+
+#### Result
+
+You can call getResult() anytime to return values parcial of form. It method return a json containing "name" and "value" to each component created.
+
+```sh
+
+```
 
 
 #### Examples

@@ -1,5 +1,6 @@
 var index =-1;
 var sessions;
+var result = {};
     function reciverJsonAndRetunHTML (json) {
       json = json.layout;
       sessions = json.sessions;
@@ -88,44 +89,55 @@ var sessions;
   function createDOMCheckBox(item){
     return createDOMRadioOrCheckbox(item);
   }
+function updateSelect(jsonItem,selectDOM){
+  var idSelect = '';
+  selectDOM.innerHTML = '';
+  jsonItem.values.forEach(function (item) {
+    if(containsDependecies(item.dependency)){
+      var op = new Option(item.name);
+      console.log(result[jsonItem.name]);
+      if(result[jsonItem.name] && result[jsonItem.name].includes(item.name)) op.selected = true;
+      selectDOM.options.add(op);
+    }
 
+  });
+}
 
-  function createDOMSelect(item){
+  function createDOMSelect(jsonItem){
     var selectDOM = document.createElement("SELECT");
-
-    item.values.forEach(function(itemValue){
-      var dependencyID = itemValue.dependency.split('\.')[0];
-      if(dependencyID){
-
-        var itemDOM = document.getElementById(dependencyID);
-        var context = this;
-        itemDOM.addEventListener("change",function (context){
-
-          selectDOM.innerHTML = '';
-
-          var filter =[];
-
-          itemDOM.querySelectorAll('[type="checkbox"]:checked, [type="radio"]:checked').forEach(function(item){
-            filter.push(item.defaultValue);
-          });
-
-          var filtredList = item.values.filter(function (listItem) {
-            var dependencyName = listItem.dependency.split('\.')[1];
-            if(filter.includes(dependencyName))
-              return listItem;
-          });
-
-          filtredList.forEach(function (item) {
-            selectDOM.options.add(new Option(item.name));
-          });
-
-        });
-      }
+    var listObserved = listIDObserved(jsonItem);
+    updateSelect(jsonItem,selectDOM);
+    listObserved.forEach(function (listObservedItem) {
+      var observer = document.getElementById(listObservedItem);
+      observer.addEventListener("change",function(event) {
+        updateSelect(jsonItem,selectDOM);
+      });
     });
-
     return selectDOM;
   }
-
+  function listIDObserved(jsonItem){
+    var listObserved = [];
+    jsonItem.values.forEach(function (itemDep) {
+    var list = itemDep.dependency;
+    if(list)
+    list.forEach(function (item) {
+      if(!listObserved.includes(item.id)){
+        listObserved.push(item.id);
+      }
+    });
+  });
+  return listObserved;
+}
+  function containsDependecies(dependency){
+    if(!dependency) return true;
+    for (var i = 0; i < dependency.length; i++) {
+      var id = dependency[i].id;
+      var value = dependency[i].value;
+      if(!getValueComponent(id).includes(value))
+        return false;
+    }
+    return true;
+  }
   function setAndGetFormElement(labelString,nameID,required){
     var innerForm = document.getElementById('innerForm');
     var innerFormDiv = document.createElement('div');
@@ -135,8 +147,36 @@ var sessions;
     innerFormDiv.appendChild(label);
     innerFormDiv.id = nameID;
     innerForm.appendChild(innerFormDiv);
+    innerFormDiv.addEventListener("change",function(event){
+      setResultOnComponentChange(event.target);
+    });
 
     return innerFormDiv;
+  }
+
+  function setResultOnComponentChange (target){
+    var idParent = findIdParent(target);
+    result[idParent] = getValueComponent(idParent);
+  }
+
+  function getValueComponent(idParent){
+    var itemDOM = document.getElementById(idParent);
+    if(itemDOM.value){
+      return itemDOM.value;
+    }
+    var tempResul = [];
+    itemDOM.querySelectorAll('[type="checkbox"]:checked, [type="radio"]:checked, [type="text"], option:checked').forEach(function (item) {
+      tempResul.push(item.value);
+    });
+    return tempResul.length == 1 ? tempResul[0] : tempResul ;
+  }
+
+  function findIdParent(target) {
+    if(target.id){
+      return target.id;
+    }else{
+      return findIdParent(target.parentElement);
+    }
   }
   function createDOMRadioGroup(item){
     return createDOMRadioOrCheckbox(item,true);
@@ -159,6 +199,10 @@ var sessions;
       }
       inputRadio.name = 'optradio';
       inputRadio.value = itemRadio.name;
+
+      if(result[item.name] && result[item.name].includes(inputRadio.value))
+        inputRadio.checked = true;
+
       radioLabel.appendChild(inputRadio);
 
       var textCon = document.createTextNode(itemRadio.name);
@@ -171,7 +215,13 @@ var sessions;
 
   function createDOMTextField(item){
     var textInput = document.createElement('input');
+    textInput.type = 'text';
     textInput.classList.add('form-control');
+
+    if(result[item.name]){
+      textInput.value = result[item.name];
+    }
+
     return textInput;
   }
   function setHeaderAndMainDivAndForm(json){
@@ -226,4 +276,7 @@ var sessions;
     }catch(err){
       console.error('The ' + nameMethod + ' method not found in validation file');
     }
+  }
+  function getJson(){
+    return JSON.stringify(result);
   }

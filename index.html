@@ -59,27 +59,55 @@
 						"type": "list",
 						"values": [{
 								"name": "Some High School",
-								"dependency": "degree.Graduate"
+								"dependency": [{"id":"degree", "value": "Graduate"}]
 							},
 							{
 								"name": "High School Diploma",
-								"dependency": "degree.Graduate"
+								"dependency": [{"id":"degree", "value": "Graduate"}]
 							},
 							{
 								"name": "Ged Certification",
-								"dependency": "degree.Graduate"
+								"dependency": [{"id":"degree", "value": "Graduate"}]
+							},
+              {
+								"name": "Both",
+								"dependency": [{"id":"degree", "value": "Graduate"},{"id":"degree", "value": "Undergraduate"}]
 							},
 							{
 								"name": "Some College Credits",
-								"dependency": "degree.Undergraduate"
+								"dependency": [{"id":"degree", "value": "Undergraduate"}]
 							},
 							{
 								"name": "Earned Doctorate",
-								"dependency": "degree.Undergraduate"
+								"dependency": [{"id":"degree", "value": "Undergraduate"}]
 							},
 							{
 								"name": "Earned Graduate",
-								"dependency": "degree.Undergraduate"
+								"dependency": [{"id":"degree", "value": "Undergraduate"}]
+							}
+						]
+					},{
+						"label": "What are you comming from?",
+            "name": "county",
+						"type": "list",
+						"values": [{
+								"name": "Brasil"
+							},
+							{
+								"name": "EUA"
+							},
+							{
+								"name": "Jamaica"
+							},
+							{
+								"name": "Australian"
+							},
+							{
+								"name": "Italian"
+							},
+							{
+								"name": "Israel",
+								"dependency": [{"id":"degree", "value": "Undergraduate"}]
 							}
 						]
 					},
@@ -101,19 +129,19 @@
             "type": "list",
             "values": [{
                 "name": "Swimming",
-                "dependency": "categorysports.Water"
+                "dependency": [{"id":"categorysports", "value": "Water"}]
               },
               {
                   "name": "synchronized swimming",
-                  "dependency": "categorysports.Water"
+                  "dependency": [{"id":"categorysports", "value": "Water"}]
                 },
                 {
                   "name": "Soccer",
-                  "dependency": "categorysports.Earth"
+                  "dependency": [{"id":"categorysports", "value": "Earth"}]
                 },
                 {
                   "name": "Running",
-                  "dependency": "categorysports.Earth"
+                  "dependency": [{"id":"categorysports", "value": "Earth"}]
                 }
             ]
           }
@@ -151,7 +179,7 @@
                 </span></p>
                 <span class="buttons">
                     <button type="button" class="btn btn-grey " onclick="previousSession()"><span class="hidden-xs"> Previous </span></button>
-                    <button type="button" class="btn btn-grey " onclick="onFinishLater()"><span class="hidden-xs">Save &amp; </span>Finish Later</button>
+                    <button type="button" class="btn btn-grey " onclick="getJson()"><span class="hidden-xs">Save &amp; </span>Finish Later</button>
                     <button type="button" onclick="nextSession()" class="btn btn-blue btn btn-primary" >Continue</button>
                 </span>
             </div>
