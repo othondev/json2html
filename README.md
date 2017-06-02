@@ -63,24 +63,32 @@ It's possible create dependency relationship between values using "dependency" k
   "type": "list",
   "values": [{
       "name": "Swimming",
-      "dependency": "categorysports.Water"
+      "dependency": [{"id":"categorysports", "value": "Water"}]
     },
     {
         "name": "synchronized swimming",
-        "dependency": "categorysports.Water"
+        "dependency": [{"id":"categorysports", "value": "Water"}]
       },
       {
         "name": "Soccer",
-        "dependency": "categorysports.Earth"
+        "dependency": [{"id":"categorysports", "value": "Earth"}]
       },
       {
         "name": "Running",
-        "dependency": "categorysports.Earth"
+        "dependency": [{"id":"categorysports", "value": "Earth"}]
       }
   ]
 }
 ```
+##### Multi Dependencies
+It's also possible create value with multi dependencies.
 
+```sh
+{
+  "name": "Both",
+  "dependency": [{"id":"degree", "value": "Graduate"},{"id":"degree", "value": "Undergraduate"}]
+}
+```
 
 #### Event Function
 - nextSession() - call this method to go next session.
@@ -90,9 +98,23 @@ It's possible create dependency relationship between values using "dependency" k
 #### Result
 
 You can call getResult() anytime to return values parcial of form. It method return a json containing "name" and "value" to each component created.
+The result will return on element or array as example above.
 
 ```sh
-
+{  
+   "CPF":"02136551361",
+   "degree":"Graduate",
+   "level":"High School Diploma",
+   "county":"Italian",
+   "categorysports":[  
+      "Water",
+      "Earth"
+   ],
+   "sportname":"Running",
+   "Facudade 3":"sdadsad",
+   "Email":"othon@gsdsd.com",
+   "Facudade 1":"sdasddasdsad"
+}
 ```
 
 
