@@ -179,11 +179,16 @@
                 </span></p>
                 <span class="buttons">
                     <button type="button" class="btn btn-grey " onclick="previousSession()"><span class="hidden-xs"> Previous </span></button>
-                    <button type="button" class="btn btn-grey " onclick="getJson()"><span class="hidden-xs">Save &amp; </span>Finish Later</button>
+                    <button type="button" class="btn btn-grey " onclick="showJson()"><span class="hidden-xs">Save &amp; </span>Finish Later</button>
                     <button type="button" onclick="nextSession()" class="btn btn-blue btn btn-primary" >Continue</button>
                 </span>
             </div>
         </div>
     </div>
+    <script>
+      function showJson() {
+        console.log(getJson());
+      }
+    </script>
   </body>
 </html>
