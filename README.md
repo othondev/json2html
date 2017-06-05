@@ -91,8 +91,9 @@ It's also possible create value with multi dependencies.
 ```
 
 #### Event Function
-- nextSession() - call this method to go next session.
-- previousSession() - call this method to go older session.
+- nextSession() - call this method to go next session. If data form no valid a excption is throwed.
+- previousSession() - call this method to go older session. If data form no valid a excption is throwed.
+- goToSession(index) - call this method to go specific session. If data form no valid a excption is throwed.
 - getResult() - call this method to reciever current values of form.
 
 #### Result

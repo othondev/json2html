@@ -1,5 +1,6 @@
 var index =-1;
 var sessions;
+var errors = 0;
 var result = {};
     function reciverJsonAndRetunHTML (json) {
       json = json.layout;
@@ -29,33 +30,47 @@ var result = {};
 
   function setAndGetElementWithValidation(item,divComponentLayout){
 
-    if(item.required && item.type === "text" ){
+    if(item.required && item.type === "text" && !divComponentLayout.classList.contains("has-error")){
       divComponentLayout.classList.add("has-error");
+      errors ++;
     }
 
     divComponentLayout.addEventListener("keyup",function(layout){
       if(item.required){
-        if(layout.target.value === ""){
+        if(layout.target.value === ""&& !divComponentLayout.classList.contains("has-error")){
           divComponentLayout.classList.add("has-error");
+          errors ++;
         }else{
-            if(validate(item.validation, layout.target.value)){
+            if(validate(item.validation, layout.target.value)&&divComponentLayout.classList.contains("has-error")){
               divComponentLayout.classList.remove("has-error");
+              errors --;
             }
             else{
-              divComponentLayout.classList.add("has-error");
+              if(!divComponentLayout.classList.contains("has-error")){
+                divComponentLayout.classList.add("has-error");
+                errors ++;
+              }
             }
 
         }
       }else{
         if(layout.target.value !== ""){
-          if(validate(item.validation, layout.target.value)){
+          if(validate(item.validation, layout.target.value) && divComponentLayout.classList.contains("has-error")){
             divComponentLayout.classList.remove("has-error");
+            errors --;
           }
           else {
-            divComponentLayout.classList.add("has-error");
+            if(!divComponentLayout.classList.contains("has-error")){
+              divComponentLayout.classList.add("has-error");
+              errors ++;
+            }
+
           }
         }else{
-          divComponentLayout.classList.remove("has-error");
+          if(divComponentLayout.classList.contains("has-error")){
+            divComponentLayout.classList.remove("has-error");
+            errors --;
+          }
         }
       }
     });
@@ -95,7 +110,6 @@ function updateSelect(jsonItem,selectDOM){
   jsonItem.values.forEach(function (item) {
     if(containsDependecies(item.dependency)){
       var op = new Option(item.name);
-      console.log(result[jsonItem.name]);
       if(result[jsonItem.name] && result[jsonItem.name].includes(item.name)) op.selected = true;
       selectDOM.options.add(op);
     }
@@ -253,14 +267,19 @@ function updateSelect(jsonItem,selectDOM){
 
   }
   function nextSession(){
+    if(errors >0) throw new Error('Datas no valid. Check the form!');
+    errors = 0;
     if(index < sessions.length -1) index += 1;
     goToSession(index);
   }
   function previousSession(){
+    if(errors >0) throw new Error('Datas no valid. Check the form!');
+    errors = 0;
     if(index > 0) index -= 1;
     goToSession(index);
   }
   function goToSession(index){
+    if(errors >0) throw new Error('Datas no valid. Check the form!');
     var itemChild = document.getElementById("session_ul").childNodes;
     itemChild[index].classList.add('active');
     var myNode = document.getElementById("innerForm");
