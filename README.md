@@ -23,7 +23,7 @@ Create Html Form with Json file.
 
 #### Validation
 
-The validation needs "validateJS" key's json set on with below. The "validation-BR.js" needs have validation method corresponding to the key "validation" that is inside the key "fields"
+The validation needs "validateJS" key's json set on as below. The "validation-BR.js" needs have validation method corresponding to the key "validation" that is inside the key "fields"
 
 ```sh
 {
