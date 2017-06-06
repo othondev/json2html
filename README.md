@@ -23,7 +23,7 @@ Create Html Form with Json file.
 
 #### Validation
 
-The validation needs "validateJS" key's json set on with above. The "validation-BR.js" needs have validation method corresponding to the key "validation" that is inside the key "fields"
+The validation needs "validateJS" key's json set on with below. The "validation-BR.js" needs have validation method corresponding to the key "validation" that is inside the key "fields"
 
 ```sh
 {
@@ -55,7 +55,7 @@ function isNumber(num){
 
 #### Values Dependencies
 
-It's possible create dependency relationship between values using "dependency" key. This feature is only enable to "list" type. In example above, the select "sportname" only show the values: "Swimming" and "synchronized swimming" whether "categorysports" componet have value: "Water".
+It's possible create dependency relationship between values using "dependency" key. This feature is only enable to "list" type. In example below, the select "sportname" only show the values: "Swimming" and "synchronized swimming" whether "categorysports" componet have value: "Water".
 ```sh
 {
   "label": "What is sport you like as?",
@@ -99,7 +99,7 @@ It's also possible create value with multi dependencies.
 #### Result
 
 You can call getResult() anytime to return values parcial of form. It method return a json containing "name" and "value" to each component created.
-The result will return on element or array as example above.
+The result will return on element or array as example below.
 
 ```sh
 {  
