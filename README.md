@@ -171,6 +171,7 @@ You can test json2Html using node to up service and access on: http://localhost:
 ```sh
 git clone https://github.com/othondev/json2html.git
 cd json2html
+npm install
 node server.js
 ```
 ### License
